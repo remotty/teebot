@@ -27,22 +27,27 @@ module.exports = (robot) ->
     req.end()
 
   build_head = (object, language) ->
-    "#{language} (#{object.wallTime}ms) :\n"
+    "```\n#{language} (#{object.wallTime}ms) :\n"
 
   build_body = (object) ->
     if object.exitCode == 0
-      body = object.stdout
+      object.stdout
     else
-      body = object.stderr
+      object.stderr
+
+  build_tail = () ->
+    "\n```"
 
   build_msg = (data, language) ->
     object = JSON.parse(data)
-    return build_head(object, language) + build_body(object)
+    return build_head(object, language) +
+      build_body(object) +
+      build_tail()
 
   handle_eval = (msg, language) ->
     evaluate msg.match[1], msg.match[2], (data, language) ->
       msg.send build_msg(data, language)
     
-  robot.hear /eval (.*?)([\s\S]*)/i, handle_eval
+  robot.hear /eval (.*?) ([\s\S]*)$/i, handle_eval
   robot.hear /eval (.*?)\n```\n([\s\S]*)\n```/i, handle_eval
 
