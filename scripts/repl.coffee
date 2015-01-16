@@ -39,6 +39,6 @@ module.exports = (robot) ->
     object = JSON.parse(data)
     return build_head(object, language) + build_body(object)
   
-  robot.hear /eval (.*?) (.*)$/i, (msg, language) ->
+  robot.hear /eval (.*?) (.*)/mi, (msg, language) ->
     evaluate msg.match[1], msg.match[2], (data, language) ->
       msg.send build_msg(data, language)
