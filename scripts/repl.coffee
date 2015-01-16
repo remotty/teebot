@@ -27,7 +27,7 @@ module.exports = (robot) ->
     req.end()
 
   build_head = (object, language) ->
-    "```\n#{language} (#{object.wallTime}ms) :\n"
+    "#{language} (#{object.wallTime}ms) :\n```\n"
 
   build_body = (object) ->
     if object.exitCode == 0
