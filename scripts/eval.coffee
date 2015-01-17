@@ -12,6 +12,7 @@
 # hubot <language> <code> - alias of eval|ev
 # hubot (ev|eval) sample <language> - evaluate sample code
 # hubot (ev|eval) help - show usage of eval plugin
+# hubot (ev|eval) show - show information of eval plugin
 #
 # Author:
 # nacyot
@@ -141,27 +142,36 @@ Evaluator = (->
 )()
 
 module.exports = (robot) ->
-  robot.hear /(?:eval|ev) help/, (msg) ->
+  robot.respond /(?:eval|ev) help/, (msg) ->
     msg.send Evaluator.help_message
+
+  robot.respond /(?:eval|ev) info/, (msg) ->
+    msg.send """
+    This is part of remotty/teebot. Please check
+    https://github.com/remotty/teebot/blob/master/scripts/eval.coffee file.
+    """
   
-  robot.hear /(?:eval|ev) (?:langs|languages)$/, (msg) ->
+  robot.respond /(?:eval|ev) (?:langs|languages)$/, (msg) ->
     msg.send "> " + Evaluator.languages.join(", ")
 
-  robot.hear /(?:eval|ev) (?:langs|languages) (.*?)$/, (msg) ->
+  robot.respond /(?:eval|ev) (?:langs|languages) (.*?)$/, (msg) ->
     re = new RegExp(msg.match[1], "i")
     filtered_languages = lodash.filter Evaluator.languages, (lang) ->
       re.test(lang)
       
     msg.send filtered_languages.join(", ")
 
-  robot.hear /(?:eval|ev) sample (.*?)$/i, Evaluator.handle_sample
+  robot.respond /(?:eval|ev) sample (.*?)$/i, Evaluator.handle_sample
       
-  robot.hear /(?:eval|ev) (.*?) ([\s\S]*)$/i, Evaluator.handle_eval
-  robot.hear /(?:eval|ev) (.*?)\n```\n([\s\S]*)\n```/i, Evaluator.handle_eval
+  robot.respond /(?:eval|ev) (.*?) ([\s\S]*)$/i, Evaluator.handle_eval
+  robot.respond /(?:eval|ev) (.*?)\n```\n([\s\S]*)\n```/i, Evaluator.handle_eval
 
-  robot.hear ///^(#{Evaluator.languages.join("|")}) ([\s\S]*)$///i,
+  robot.respond ///^(#{Evaluator.languages.join("|")}) ([\s\S]*)$///i,
     Evaluator.handle_eval
     
-  robot.hear ///^(#{Evaluator.languages.join("|")})\n```\n([\s\S]*)\n```///i,
+  robot.respond ///^(#{Evaluator.languages.join("|")})\n```\n([\s\S]*)\n```///i,
     Evaluator.handle_eval
+
+  robot.hear /HELLO$/i, (msg) ->
+    msg.send "hello!"
 
