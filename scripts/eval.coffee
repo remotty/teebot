@@ -103,31 +103,31 @@ Evaluator = (->
 
     Standard - 
 
-    > <bot> ev <language> <codea>
-    > <bot> eval <language> <code>
+    > [bot] ev [language] [codea]
+    > [bot] eval [language] [code]
     > hubot eval ruby puts 'Hello, world!'
 
     Use quote - 
 
-    > <bot> eval <language>
+    > [bot] eval [language]
     > \\```
-    > <code>
+    > [code]
     > ```
     (remove \\)
 
     or Shortcut
 
-    > <bot> <language> <code>
+    > [bot] [language] [code]
 
     lags command show list of language which can eval
 
-    > <bot> eval languages
-    > <bot> eval langs
-    > <bot> eval langs <filter>
+    > [bot] eval languages
+    > [bot] eval langs
+    > [bot] eval langs [filter]
 
     sample command show hello world code of target language
 
-    > <bot> eval sample <language>
+    > [bot] eval sample [language]
     > hubot eval sample ruby
     """
 
@@ -144,14 +144,14 @@ module.exports = (robot) ->
     msg.send Evaluator.help_message
   
   robot.hear /(?:eval|ev) (?:langs|languages)$/, (msg) ->
-    msg.send Evaluator.languages.join("\n")
+    msg.send "> " + Evaluator.languages.join(", ")
 
   robot.hear /(?:eval|ev) (?:langs|languages) (.*?)$/, (msg) ->
     re = new RegExp(msg.match[1], "i")
     filtered_languages = lodash.filter Evaluator.languages, (lang) ->
       re.test(lang)
       
-    msg.send filtered_languages.join("\n")
+    msg.send filtered_languages.join(", ")
 
   robot.hear /(?:eval|ev) sample (.*?)$/i, Evaluator.handle_sample
       
