@@ -93,6 +93,7 @@ Evaluator = (->
       if (err)
         console.log(err)
         msg.send "Something goes wrong"
+        return undefined
 
       evaluate language, code, (data, language) ->
         msg.send "#{language} code: \n```\n#{code}\n```\n" +
