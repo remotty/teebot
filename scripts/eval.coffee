@@ -120,7 +120,7 @@ Evaluator = (->
 
     > [bot] [language] [code]
 
-    lags command show list of language which can eval
+    langs command show list of language which can eval
 
     > [bot] eval languages
     > [bot] eval langs
