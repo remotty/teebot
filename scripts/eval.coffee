@@ -171,7 +171,3 @@ module.exports = (robot) ->
     
   robot.respond ///^(#{Evaluator.languages.join("|")})\n```\n([\s\S]*)\n```///i,
     Evaluator.handle_eval
-
-  robot.hear /HELLO$/i, (msg) ->
-    msg.send "hello!"
-
