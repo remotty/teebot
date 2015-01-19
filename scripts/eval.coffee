@@ -28,12 +28,20 @@ Evaluator = (->
     'ocaml', 'racket', 'lisp', 'c', 'cpp', 'nasm', 'gas', 'bash', 'arm'
     'r', 'rust', 'erlang', 'elixir', 'go', 'julia', 'lua', 'php', 'perl']
 
+  unescape = (code) ->
+    return code.replace(/&amp;/g, "&").
+      replace(/&lt;/g, "<").
+      replace(/&gt;/g, ">")
+      
+
   evaluate = (language, solution, callback) ->
     data = querystring.stringify(  
       language: language
-      solution: solution
+      solution: unescape(solution)
       key: process.env.REPL_KEY
     )
+
+
 
     options =
       host: process.env.REPL_HOST
