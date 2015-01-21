@@ -75,9 +75,9 @@ Evaluator = (->
     result_array = result.split("\n")
 
     if result_array.length > 5
-      _.first(result.split("\n"), 5).join("\n") + "\n..."
+      lodash.first(result.split("\n"), 5).join("\n") + "\n..."
     else
-      _.first(result.split("\n"), 5).join("\n")
+      lodash.first(result.split("\n"), 5).join("\n")
   
   build_tail = () ->
     "\n```"
