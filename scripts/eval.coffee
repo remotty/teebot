@@ -65,11 +65,20 @@ Evaluator = (->
     "@#{user} #{language} (#{object.wallTime}ms) :\n```\n"
 
   build_body = (object) ->
+    result = ''
+    
     if object.exitCode == 0
-      object.stdout
+      result = object.stdout
     else
-      object.stderr
+      result = object.stderr
 
+    result_array = result.split("\n")
+
+    if result_array.length > 5
+      _.first(result.split("\n"), 5).join("\n") + "\n..."
+    else
+      _.first(result.split("\n"), 5).join("\n")
+  
   build_tail = () ->
     "\n```"
 
